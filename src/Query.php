@@ -746,6 +746,14 @@ EOD;
                     $allSelected = $this->simpleXml[0]->xpath('./option[@selected]');
                     $values = [];
 
+                    if(empty($allSelected)) {
+                        $options = $this->simpleXml[0]->xpath('./option');
+
+                        if(!empty($options)) {
+                            array_push($allSelected, $this->simpleXml[0]->xpath('./option')[0]);
+                        }
+                    }
+
                     foreach ($allSelected as $selected) {
                         if (isset($selected->attributes()->{'value'})) {
                             if (isset($selected->attributes()->{'value'})) {
@@ -800,16 +808,16 @@ EOD;
             }
         }
 
-        foreach ($this->find('select') as $select) {
-            $opt = $select->find('option[selected]');
-
-            if ($opt->count() == 0) {
-                $opt = $select->find('option:eq(0)');
-            }
-
-            $result[] = ['name'  => $select->attr('name'),
-                         'value' => $opt->attr('value')];
-        }
+        //foreach ($this->find('select') as $select) {
+        //    $opt = $select->find('option[selected]');
+        //
+        //    if ($opt->count() == 0) {
+        //        $opt = $select->find('option:eq(0)');
+        //    }
+        //
+        //    $result[] = ['name'  => $select->attr('name'),
+        //                 'value' => $opt->attr('value')];
+        //}
 
         return $result;
     }
